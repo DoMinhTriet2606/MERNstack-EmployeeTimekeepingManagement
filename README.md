@@ -13,7 +13,9 @@
 
 Install packages
 `npm install`
+
 Go to client
 `cd client` `npm start`
+
 Go to server
 `cd server` `npm run server`
