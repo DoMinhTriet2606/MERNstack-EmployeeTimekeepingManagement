@@ -1,0 +1,141 @@
+.shift__container {
+    width: 90%;
+    min-height: 60vh;
+    background-color: azure;
+    padding: 0 18px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    border-radius: 10px;
+    margin: 10% auto 0;
+}
+
+.salary__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+}
+.salary__table {
+    margin: 0 auto;
+    width: 100%;
+}
+.salary__name-list li {
+    margin-bottom: 8px;
+    line-height: 20px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.salary__name-list li::before {
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 2px;
+    background-color: #7ed7c1;
+
+    bottom: 0;
+    transform: translate(-120%);
+    transition: all 0.35s ease;
+}
+.salary__name-list li:hover::before {
+    transform: translateX(0);
+}
+.salary__name-list .config-disable {
+    color: #7ed7c1;
+    pointer-events: none;
+}
+
+.marked2 {
+    color: #7ed7c1;
+}
+
+.button__store {
+    text-align: center;
+}
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+.mb-12 {
+    margin-bottom: 12px;
+}
+.ml-32 {
+    margin-left: 32px;
+}
+
+.center {
+    display: grid;
+    place-items: center;
+}
+
+.fs-16 {
+    font-size: 18px;
+}
+
+.align {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.shift__content {
+    display: flex;
+    align-items: start;
+}
+
+.table {
+    width: 80%;
+    display: block;
+    border: none;
+}
+.detail {
+    width: 30%;
+}
+
+.table-title {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 24px;
+}
+
+.shift__name-list li {
+    margin-bottom: 8px;
+    line-height: 20px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.shift__name-list li::before {
+    content: "";
+    position: absolute;
+    width: 80%;
+    height: 2px;
+    background-color: #f875aa;
+
+    top: 50%;
+    transform: translate(-120%, -50%);
+    transition: all 0.35s ease;
+}
+.shift__name-list li:hover::before {
+    transform: translateX(0);
+}
+
+.marked {
+    color: #f875aa;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    padding: 12px;
+}
+th {
+    font-size: 18px;
+    background-image: linear-gradient(to right, #d3cce3, #e9e4f0);
+}
+
+.shift-day {
+    padding: 8px;
+}
