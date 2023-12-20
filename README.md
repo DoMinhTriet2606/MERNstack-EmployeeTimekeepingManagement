@@ -1,7 +1,7 @@
 # MERNstack-EmployeeTimekeepingManagement
 
 ## Description
-- his web application facilitates easy management of employee shift schedules and rapid schedule creation for administrators.
+- This web application facilitates easy management of employee shift schedules and rapid schedule creation for administrators.
 - Automated salary calculation.
 - Employee information management.
 - Employees can also view their work schedules, attendance records, and salary statements.
