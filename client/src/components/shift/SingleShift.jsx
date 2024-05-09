@@ -2,8 +2,8 @@ import { Card } from "antd";
 import React from "react";
 
 const SingleShift = ({ shift, timekeeper }) => {
-    // Check if shift.shiftTime is present in the timekeeper array
-    const isShiftTimeInTimekeeper = timekeeper.includes(shift.shiftTime);
+    // Check if shift.shiftName is present in the timekeeper array
+    const isShiftTimeInTimekeeper = timekeeper.includes(shift.shiftName);
 
     // Define the border color based on the condition
     const borderColor = isShiftTimeInTimekeeper ? "#7ed7c1" : "default"; // Use "default" or any other color you prefer
@@ -14,7 +14,7 @@ const SingleShift = ({ shift, timekeeper }) => {
     };
 
     // Calculate the date based on shiftDay
-    const shiftDay = Math.floor(shift.shiftTime / 10);
+    const shiftDay = Math.floor(shift.shiftName / 10);
     const currentDate = new Date(); // Use your desired date as a starting point
     currentDate.setDate(currentDate.getDate() + shiftDay - 2); // Add shiftDay to the current date
 
@@ -23,7 +23,7 @@ const SingleShift = ({ shift, timekeeper }) => {
 
     return (
         <Card extra={formattedDate} bordered hoverable style={cardStyle}>
-            <h2>Shift: {shift.shiftTime}</h2>
+            <h2>Shift: {shift.shiftName}</h2>
         </Card>
     );
 };

@@ -1,6 +1,6 @@
 .dashboard__container {
     width: 100%;
-    padding: 40px;
+    padding: 0 40px;
 }
 .config-mouse {
     pointer-events: none;

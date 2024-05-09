@@ -2,7 +2,7 @@
     width: 1200px;
     max-width: 80%;
     height: 68vh;
-    margin: 8% auto 0;
+    margin: 0 auto;
 
     background: rgba(255, 255, 255, 0.46);
     border-radius: 16px;
@@ -36,19 +36,30 @@
     display: flex;
     justify-content: space-evenly;
     align-items: start;
+    flex-wrap: wrap;
+}
+
+.shift__check {
+    height: 24px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .shift__item {
     display: flex;
     flex-direction: column;
     gap: 18px;
+
+    width: 8%;
 }
 
 /* Custom checkbox */
 .checkbox span {
     position: absolute;
-    right: -36px;
-    top: 3px;
+    min-width: 30px;
+    right: -40px;
+    top: 0;
 }
 .checkbox {
     --background: #fff;
@@ -141,6 +152,11 @@
     opacity: 0.9 !important;
 }
 
+.button--disabled {
+    pointer-events: none;
+    opacity: 0.6 !important;
+}
+
 /* Aside */
 aside {
     margin-left: 8%;
@@ -177,4 +193,55 @@ aside span {
     position: absolute;
     bottom: 50px;
     font-size: 20px;
+}
+
+/* BUTTON */
+.button__container-shift {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.shift-user {
+    position: absolute;
+    top: 22%;
+    right: 8%;
+
+    z-index: 10;
+}
+
+.shift-admin {
+    align-items: self-end;
+    margin: 20px 10% 32px;
+}
+
+.shift-user button {
+    width: 100px;
+    height: 80px;
+}
+.shift-admin button {
+    width: 200px;
+    height: 80px;
+}
+
+.button__container-shift button {
+    background: rgba(255, 255, 255, 0.46);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.3px);
+    -webkit-backdrop-filter: blur(7.3px);
+    border: 1px solid rgba(255, 255, 255, 1);
+
+    transition: all 0.3s;
+}
+
+.button__container-shift button:hover {
+    box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.2);
+    transform: scale(1.03);
+}
+
+.button__container-shift button:active {
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98);
 }

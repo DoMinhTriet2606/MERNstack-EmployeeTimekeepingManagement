@@ -1,307 +1,85 @@
-import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { message, Button, Modal } from "antd";
+import React, { useContext, useEffect } from "react";
 import { ShiftAdminContext } from "../contexts/ShiftAdminContext";
-import "../assets/css/shift/adminShift.css";
+import { message } from "antd";
 import Loader from "./Loader";
-import { StaffContext } from "../contexts/StaffContext";
-import SalaryList from "../components/shift/SalaryList";
+import CheckoutTable from "../components/adminShift/CheckoutTable";
 import { SalaryContext } from "../contexts/SalaryContext";
-import { AuthContext } from "../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const AdminSalary = () => {
-    // message
-    const [messageApi, contextHolder] = message.useMessage();
-
-    useEffect(() => {
-        messageApi.info("Here is the Salary Table Check! ^^");
-        getAllShifts();
-        getAllSalary();
-    }, []);
-
-    // Context
     const {
-        shiftAdminState: { shiftsTable },
-        getAllShifts,
+        shiftAdminState: { tables, adminLoading },
+        getAllTables,
     } = useContext(ShiftAdminContext);
 
-    const { salaryTemp, setSalaryTemp, getAllSalary, updateSalary } = useContext(SalaryContext);
+    const { salaryTemp, updateSalary, getAllSalaries } = useContext(SalaryContext);
+    useEffect(() => {
+        getAllTables();
+        getAllSalaries();
+        info();
+    }, []);
 
-    const { open, setOpen, confirmLoading, setConfirmLoading } = useContext(StaffContext);
-    // Modal
-    const handleOk = async () => {
-        for (let item of salaryTemp) {
-            const { success, message } = await updateSalary({
-                userId: item.clickedUserId,
-                newTimekeeper: item.code,
-                newEarnings: 100000,
-            });
+    console.log("Test: ");
+    console.log(salaryTemp);
 
-            if (success) {
-                messageApi.open({
-                    type: "success",
-                    content: message,
+    const handleCheckout = () => {
+        Swal.fire({
+            title: "Checkout",
+            text: "Are you sure you want to checkout these shifts?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                updateSalary({ checkouts: salaryTemp });
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: "Checkout Successfully",
                 });
             } else {
-                messageApi.open({
-                    type: "error",
-                    content: message,
+                Swal.fire({
+                    icon: "warning",
+                    title: "Canceled",
+                    text: "The checkout progress was not made",
                 });
             }
-        }
-
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setOpen(false);
-            setConfirmLoading(false);
-        }, 1000);
-    };
-
-    const handleCancel = () => {
-        setOpen(false);
-        window.location.reload(false);
-    };
-
-    const confirm = () => {
-        setOpen(true);
-    };
-    const defuse = () => {
-        const markedList = Array.from(document.querySelectorAll("li.marked2"));
-        markedList.forEach((item) => {
-            item.classList.remove("marked2");
         });
-        setSalaryTemp([]);
     };
 
-    // Main code
-    const s21 = [];
-    const s22 = [];
-    const s23 = [];
-    const s31 = [];
-    const s32 = [];
-    const s33 = [];
-    const s41 = [];
-    const s42 = [];
-    const s43 = [];
-    const s51 = [];
-    const s52 = [];
-    const s53 = [];
-    const s61 = [];
-    const s62 = [];
-    const s63 = [];
-    const s71 = [];
-    const s72 = [];
-    const s73 = [];
-    const s81 = [];
-    const s82 = [];
-    const s83 = [];
-    shiftsTable.forEach((item) => {
-        item.shifts.forEach((shift) => {
-            if (shift.shiftTime === 21) {
-                s21.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 22) {
-                s22.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 23) {
-                s23.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 31) {
-                s31.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 32) {
-                s32.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 33) {
-                s33.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 41) {
-                s41.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 42) {
-                s42.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 43) {
-                s43.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 51) {
-                s51.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 52) {
-                s52.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 53) {
-                s53.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 61) {
-                s61.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 62) {
-                s62.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 63) {
-                s63.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 71) {
-                s71.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 72) {
-                s72.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 73) {
-                s73.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 81) {
-                s81.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 82) {
-                s82.push({ username: item.user.username, userId: item.user._id });
-            }
-            if (shift.shiftTime === 83) {
-                s83.push({ username: item.user.username, userId: item.user._id });
-            }
-        });
-    });
+    // message
+    const [messageApi, contextHolder] = message.useMessage();
+    const info = () => {
+        messageApi.info("Here is the Checkout Table Section");
+    };
 
-    return (
-        <div className="home-content">
-            {contextHolder}
-            <Modal
-                title="Save the Salary Table Check ?"
-                open={open}
-                onOk={handleOk}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-                style={{ top: "42px" }}
-            ></Modal>
-            <div className="shift__container">
-                <div className="table-title ml-32">
-                    <h1>Time sheet</h1>
+    let body = null;
+    if (adminLoading && tables.length === 0) {
+        body = (
+            <div className="home-content">
+                <Loader />
+            </div>
+        );
+    } else {
+        body = (
+            <div className="home-content">
+                <div className="shift__container mt-32">
+                    <h1>Checkout Table</h1>
+                    <CheckoutTable timetables={tables} />
                 </div>
-                <div className="salary__content">
-                    <table className="salary__table">
-                        <thead>
-                            <tr className="shift-day mb-16">
-                                <th style={{ width: "12%" }}>
-                                    <div>Day</div>
-                                </th>
-                                <th>
-                                    <div>Monday</div>
-                                </th>
-                                <th>
-                                    <div>Tuesday</div>
-                                </th>
-                                <th>
-                                    <div>Wednesday</div>
-                                </th>
-                                <th>
-                                    <div>Thursday</div>
-                                </th>
-                                <th>
-                                    <div>Friday</div>
-                                </th>
-                                <th>
-                                    <div>Saturday</div>
-                                </th>
-                                <th>
-                                    <div>Sunday</div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Shift 1</th>
-                                <td>
-                                    <SalaryList array={s21} code={21} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s31} code={31} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s41} code={41} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s51} code={51} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s61} code={61} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s71} code={71} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s81} code={81} />
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>Shift 2</th>
-                                <td>
-                                    <SalaryList array={s22} code={22} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s32} code={32} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s42} code={42} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s52} code={52} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s62} code={62} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s72} code={72} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s82} code={82} />
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>Shift 3</th>
-                                <td>
-                                    <SalaryList array={s23} code={23} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s33} code={33} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s43} code={43} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s53} code={53} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s63} code={63} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s73} code={73} />
-                                </td>
-                                <td>
-                                    <SalaryList array={s83} code={83} />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div className="button__store">
-                    <Button
-                        style={{ marginRight: "20px" }}
-                        size="large"
-                        type="primary"
-                        onClick={defuse}
-                        ghost
-                    >
-                        Cancel
-                    </Button>
-                    <Button size="large" type="primary" onClick={confirm}>
-                        Save
-                    </Button>
+                <div className="button__container-shift shift-admin">
+                    <button onClick={handleCheckout}>Checkout</button>
                 </div>
             </div>
+        );
+    }
+    return (
+        <div>
+            {contextHolder}
+            {body}
         </div>
     );
 };
 
-export default memo(AdminSalary);
+export default AdminSalary;

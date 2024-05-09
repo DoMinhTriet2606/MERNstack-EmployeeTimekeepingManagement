@@ -3,7 +3,14 @@ import { message, Col, Row, Card } from "antd";
 import { NavLink } from "react-router-dom";
 import List from "../components/shift/List";
 
-const DashboardAdmin = ({ userData, adminTotalUser, adminTotalShift, shiftsTable, salaries }) => {
+const DashboardAdmin = ({
+    userData,
+    adminTotalUser,
+    adminTotalRegisterShift,
+    adminTotalAssignShift,
+    shiftsTable,
+    salaries,
+}) => {
     useEffect(() => {
         if (firstName === "") {
             info();
@@ -50,68 +57,68 @@ const DashboardAdmin = ({ userData, adminTotalUser, adminTotalShift, shiftsTable
     const s82 = [];
     const s83 = [];
     shiftsTable.forEach((item) => {
-        item.shifts.forEach((shift) => {
-            if (shift.shiftTime === 21) {
+        item.assigned_shifts.forEach((shift) => {
+            if (shift.shiftName === 21) {
                 s21.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 22) {
+            if (shift.shiftName === 22) {
                 s22.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 23) {
+            if (shift.shiftName === 23) {
                 s23.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 31) {
+            if (shift.shiftName === 31) {
                 s31.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 32) {
+            if (shift.shiftName === 32) {
                 s32.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 33) {
+            if (shift.shiftName === 33) {
                 s33.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 41) {
+            if (shift.shiftName === 41) {
                 s41.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 42) {
+            if (shift.shiftName === 42) {
                 s42.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 43) {
+            if (shift.shiftName === 43) {
                 s43.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 51) {
+            if (shift.shiftName === 51) {
                 s51.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 52) {
+            if (shift.shiftName === 52) {
                 s52.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 53) {
+            if (shift.shiftName === 53) {
                 s53.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 61) {
+            if (shift.shiftName === 61) {
                 s61.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 62) {
+            if (shift.shiftName === 62) {
                 s62.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 63) {
+            if (shift.shiftName === 63) {
                 s63.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 71) {
+            if (shift.shiftName === 71) {
                 s71.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 72) {
+            if (shift.shiftName === 72) {
                 s72.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 73) {
+            if (shift.shiftName === 73) {
                 s73.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 81) {
+            if (shift.shiftName === 81) {
                 s81.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 82) {
+            if (shift.shiftName === 82) {
                 s82.push({ username: item.user.username, _id: item._id });
             }
-            if (shift.shiftTime === 83) {
+            if (shift.shiftName === 83) {
                 s83.push({ username: item.user.username, _id: item._id });
             }
         });
@@ -165,10 +172,17 @@ const DashboardAdmin = ({ userData, adminTotalUser, adminTotalShift, shiftsTable
                                 className="hover"
                             >
                                 <Row>
-                                    <Col span={12}>Total users registered: {adminTotalUser}</Col>
+                                    <Col span={12}>Total staffs registered: {adminTotalUser}</Col>
                                 </Row>
                                 <Row gutter={[24, 8]} className="mt-8">
-                                    <Col span={12}>Total shifts: {adminTotalShift}</Col>
+                                    <Col span={12}>
+                                        Total registered shifts: {adminTotalRegisterShift}
+                                    </Col>
+                                </Row>
+                                <Row gutter={[24, 8]} className="mt-8">
+                                    <Col span={12}>
+                                        Total assigned shifts: {adminTotalAssignShift}
+                                    </Col>
                                 </Row>
                             </Card>
                         </NavLink>

@@ -13,9 +13,9 @@ import { SalaryContext } from "../contexts/SalaryContext";
 const Dashboard = () => {
     useEffect(() => {
         getInfo();
-        getShift();
-        getAllShifts();
-        getAllSalary();
+        getTimeTable();
+        getAllTables();
+        getAllSalaries();
     }, []);
 
     // State
@@ -29,22 +29,23 @@ const Dashboard = () => {
     } = useContext(InfoContext);
 
     const {
-        shiftState: { shiftQuantity, shifts, shiftLoading },
-        getShift,
+        shiftState: { registered_shifts, assigned_shifts, shiftLoading },
+        getTimeTable,
     } = useContext(ShiftContext);
 
     const {
-        shiftAdminState: { totalShiftUser, shiftsTable },
-        getAllShifts,
+        shiftAdminState: { tables },
+        getAllTables,
     } = useContext(ShiftAdminContext);
+    const totalShiftUser = tables.length;
 
     const {
-        salaryState: { salaries },
-        getAllSalary,
+        salaryState: { checkouts },
+        getAllSalaries,
     } = useContext(SalaryContext);
 
-    const userShift = shifts.map((shift) => shift.shiftTime);
-    const shiftData = { shiftQuantity, userShift };
+    const userShift = assigned_shifts.map((shift) => shift.shiftName);
+    const shiftData = { shiftQuantity: registered_shifts.length, userShift };
     let userData = {
         firstName: "",
         lastName: "unknown",
@@ -58,10 +59,16 @@ const Dashboard = () => {
         userData = info[0];
     }
 
-    let totalShifts = 0;
-    if (shiftsTable.length > 0) {
-        shiftsTable.forEach((item) => {
-            totalShifts += item.shiftQuantity;
+    let totalRegisterShifts = 0;
+    if (tables.length > 0) {
+        tables.forEach((item) => {
+            totalRegisterShifts += item.registered_shifts.length;
+        });
+    }
+    let totalAssignShifts = 0;
+    if (tables.length > 0) {
+        tables.forEach((item) => {
+            totalAssignShifts += item.assigned_shifts.length;
         });
     }
 
@@ -81,9 +88,10 @@ const Dashboard = () => {
                     userData={userData}
                     shiftData={shiftData}
                     adminTotalUser={totalShiftUser}
-                    adminTotalShift={totalShifts}
-                    shiftsTable={shiftsTable}
-                    salaries={salaries}
+                    adminTotalRegisterShift={totalRegisterShifts}
+                    adminTotalAssignShift={totalAssignShifts}
+                    shiftsTable={tables}
+                    salaries={checkouts}
                 />
             );
         else body = <DashboardUser userId={user._id} userData={userData} shiftData={shiftData} />;

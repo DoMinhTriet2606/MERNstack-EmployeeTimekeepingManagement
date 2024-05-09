@@ -12,8 +12,8 @@ import { AuthContext } from "../contexts/AuthContext";
 const Timekeeping = () => {
     useEffect(() => {
         messageApi.info("Here is your timekeeping! ^^");
-        getWorkShift(user._id);
-        getSalary(user._id);
+        getTimeTable();
+        getSalary();
     }, []);
 
     // Context
@@ -22,46 +22,24 @@ const Timekeeping = () => {
     } = useContext(AuthContext);
 
     const {
-        shiftState: { workShift, shiftLoading },
-        getWorkShift,
+        shiftState: { assigned_shifts, shiftLoading },
+        getTimeTable,
     } = useContext(ShiftContext);
-    const data = workShift[0];
 
-    const { salaryState, getSalary, createSalary } = useContext(SalaryContext);
-    console.log(salaryState);
+    const {
+        salaryState: { timekeeper, totalEarnings, monthlyEarnings },
+        getSalary,
+    } = useContext(SalaryContext);
     let salaryChecked = [];
-    let totalEarnings = 0,
-        monthlyEarnings = 0;
-    if (salaryState[0]) {
-        salaryChecked = salaryState[0].timekeeper;
-        totalEarnings = salaryState[0].totalEarnings;
-        monthlyEarnings = salaryState[0].monthlyEarnings;
-    }
-
-    // Handle events
-    const generateSalary = async () => {
-        const { success, message } = await createSalary(user._id);
-
-        if (success) {
-            Swal.fire({
-                icon: "success",
-                title: "Success!",
-                text: message,
-            });
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: message,
-            });
-        }
-    };
+    assigned_shifts.sort((a, b) => a.shiftName - b.shiftName);
+    console.log(assigned_shifts);
+    salaryChecked = timekeeper;
 
     // Message
     const [messageApi, contextHolder] = message.useMessage();
 
     let body = null;
-    if (shiftLoading || data === undefined) {
+    if (shiftLoading) {
         body = (
             <>
                 <div className="container">
@@ -78,7 +56,7 @@ const Timekeeping = () => {
                 </Card>
 
                 <Row gutter={[16, 16]}>
-                    {data.shifts.map((shift, index) => (
+                    {assigned_shifts.map((shift, index) => (
                         <Col span={6} key={index}>
                             <SingleShift shift={shift} timekeeper={salaryChecked} />
                         </Col>
@@ -88,44 +66,10 @@ const Timekeeping = () => {
         );
     }
 
-    let generateButton = null;
-    if (!Array.isArray(salaryState)) {
-        generateButton = (
-            <>
-                <div>
-                    <h2 className="fs-lg">Click this button to generate your salary</h2>
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Button: {
-                                    colorPrimary: "#33BBC5",
-                                    colorPrimaryHover: "#85E6C5",
-                                },
-                            },
-                        }}
-                    >
-                        <Button
-                            className="mt-16 transition"
-                            type="primary"
-                            size="large"
-                            onClick={generateSalary}
-                        >
-                            Generate
-                        </Button>
-                    </ConfigProvider>
-                </div>
-            </>
-        );
-    }
-
     return (
         <div className="home-content">
             {contextHolder}
-            <div className="container--v5">
-                {generateButton}
-
-                {body}
-            </div>
+            <div className="container--v5">{body}</div>
         </div>
     );
 };

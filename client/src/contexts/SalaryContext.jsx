@@ -1,13 +1,7 @@
 import { createContext, useReducer, useState } from "react";
 import axios from "axios";
 import { SalaryReducer } from "../reducers/SalaryReducer";
-import {
-    CREATE_SALARY,
-    GET_ALL_SALARIES,
-    GET_USER_SALARIES,
-    UPDATE_SALARY,
-    apiUrl,
-} from "./constants";
+import { GET_ALL_SALARIES, GET_USER_SALARIES, UPDATE_SALARY, apiUrl } from "./constants";
 
 export const SalaryContext = createContext();
 
@@ -17,19 +11,19 @@ const SalaryContextProvider = ({ children }) => {
         totalEarnings: 0,
         monthlyEarnings: 0,
         user: null,
-        salaries: [],
+        checkouts: [],
     });
 
     const [salaryTemp, setSalaryTemp] = useState([]);
 
     // for Manager
-    const getAllSalary = async () => {
+    const getAllSalaries = async () => {
         try {
             const response = await axios.get(`${apiUrl}/admin/users/salary`);
             if (response.data.success) {
                 dispatch({
                     type: GET_ALL_SALARIES,
-                    payload: response.data.salaries,
+                    payload: response.data.checkouts,
                 });
             }
         } catch (error) {
@@ -37,14 +31,26 @@ const SalaryContextProvider = ({ children }) => {
         }
     };
 
-    // for Staff
-    const getSalary = async (userId) => {
+    const updateSalary = async (salaryData) => {
         try {
-            const response = await axios.get(`${apiUrl}/user/salary/${userId}`);
+            const response = await axios.put(`${apiUrl}/admin/salary/update`, salaryData);
+            if (response.data.success) {
+                getAllSalaries();
+                return { success: true, message: response.data.message };
+            }
+        } catch (error) {
+            return { success: false, message: "Error updating" };
+        }
+    };
+
+    // for Staff
+    const getSalary = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/user/salary`);
             if (response.data.success) {
                 dispatch({
                     type: GET_USER_SALARIES,
-                    payload: response.data.salaries,
+                    payload: response.data.salary,
                 });
                 return { success: true, message: response.data.message };
             }
@@ -53,40 +59,12 @@ const SalaryContextProvider = ({ children }) => {
         }
     };
 
-    const createSalary = async (userId) => {
-        try {
-            const response = await axios.post(`${apiUrl}/user/salary/create`, { userId });
-            if (response.data.success) {
-                dispatch({ type: CREATE_SALARY, payload: response.data.salary });
-                return { success: true, message: response.data.message };
-            }
-        } catch (error) {
-            return { success: false, message: "You already generated the salary" };
-        }
-    };
-
-    const updateSalary = async (salaryData) => {
-        try {
-            const response = await axios.put(`${apiUrl}/user/salary/update`, salaryData);
-            if (response.data.success) {
-                dispatch({
-                    type: UPDATE_SALARY,
-                    payload: response.data.salary,
-                });
-                return { success: true, message: response.data.message };
-            }
-        } catch (error) {
-            return { success: false, message: "Error updating" };
-        }
-    };
-
     const SalaryContextData = {
         salaryState,
         salaryTemp,
         setSalaryTemp,
-        getAllSalary,
+        getAllSalaries,
         getSalary,
-        createSalary,
         updateSalary,
     };
     return <SalaryContext.Provider value={SalaryContextData}>{children}</SalaryContext.Provider>;

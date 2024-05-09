@@ -40,7 +40,7 @@ const NavbarAdmin = () => {
                 <div className="logo-content">
                     <div className="logo">
                         <i className="bx bxl-react"></i>
-                        <div className="logo__name">REACT</div>
+                        <div className="logo__name">IKIGAI 2.0</div>
                     </div>
                     <i className="bx bx-menu" id="btn" onClick={handleToggle}></i>
                 </div>

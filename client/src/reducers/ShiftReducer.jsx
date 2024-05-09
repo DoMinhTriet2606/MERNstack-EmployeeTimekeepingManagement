@@ -1,4 +1,7 @@
 import {
+    GET_TABLE_SUCCESS,
+    NO_TABLE_FOUND,
+    // =================================================
     FIND_USER_SUCCESS,
     GET_SHIFT_FAIL,
     GET_SHIFT_SUCCESS,
@@ -12,6 +15,23 @@ export const ShiftReducer = (state, action) => {
     const { type, payload } = action;
 
     switch (type) {
+        case GET_TABLE_SUCCESS:
+            return {
+                ...state,
+                registered_shifts: payload.registered_shifts,
+                assigned_shifts: payload.assigned_shifts,
+                user: payload.user,
+                shiftLoading: false,
+            };
+
+        case NO_TABLE_FOUND:
+            return {
+                ...state,
+                registered_shifts: [],
+                shiftLoading: false,
+            };
+
+        // =================================================================
         case POST_SHIFT_SUCCESS:
             return {
                 ...state,

@@ -7,7 +7,7 @@ const WorkShift = ({ array }) => {
                 {array.map((user, index) => {
                     return (
                         <li key={index}>
-                            {user.username} - Shift {user.shiftTime % 10}
+                            {user.username} - Shift {user.shiftName % 10}
                         </li>
                     );
                 })}

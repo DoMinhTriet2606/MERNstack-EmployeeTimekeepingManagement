@@ -2,6 +2,9 @@ import { createContext, useReducer } from "react";
 import { ShiftReducer } from "../reducers/ShiftReducer";
 import axios from "axios";
 import {
+    GET_TABLE_SUCCESS,
+    NO_TABLE_FOUND,
+    // =================================================================
     FIND_USER_SUCCESS,
     GET_SHIFT_FAIL,
     GET_SHIFT_SUCCESS,
@@ -16,12 +19,43 @@ export const ShiftContext = createContext();
 
 const ShiftContextProvider = ({ children }) => {
     const [shiftState, dispatch] = useReducer(ShiftReducer, {
-        shiftQuantity: 0,
-        shifts: [],
+        registered_shifts: [],
+        assigned_shifts: [],
         user: null,
         shiftLoading: true,
-        workShift: [],
     });
+
+    const getTimeTable = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/user/timetable`);
+            if (response.data.success) {
+                dispatch({
+                    type: GET_TABLE_SUCCESS,
+                    payload: response.data.time_table,
+                });
+            } else {
+                dispatch({ type: NO_TABLE_FOUND });
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch({ type: NO_TABLE_FOUND });
+        }
+    };
+
+    const registerTable = async (shiftInfo) => {
+        try {
+            const response = await axios.post(`${apiUrl}/user/timetable`, shiftInfo);
+            if (response.data.success) {
+                getTimeTable();
+            } else {
+                console.log(response.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // =================================================================
 
     // Get User's Shift
     const getShift = async () => {
@@ -106,6 +140,9 @@ const ShiftContextProvider = ({ children }) => {
     };
 
     const shiftContextData = {
+        getTimeTable,
+        registerTable,
+        // =================================================================
         shiftState,
         postShifts,
         getShift,

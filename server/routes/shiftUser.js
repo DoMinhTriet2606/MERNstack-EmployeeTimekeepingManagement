@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middleware/auth");
 
-const ShiftUser = require("../models/ShiftUser");
 const User = require("../models/User");
-const ShiftAdmin = require("../models/ShiftAdmin");
+const { TimeTable, ShiftRegister, ShiftAssign } = require("../models/Shift");
 
 router.get("/shifts", verifyToken, async (req, res) => {
     try {
@@ -120,6 +119,95 @@ router.put("/shift", verifyToken, async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+});
+
+// =================================================================
+
+// Route handler để tạo bảng lịch làm
+router.post("/timetable", verifyToken, async (req, res) => {
+    try {
+        const { week, dateStart, dateEnd, registered_shifts } = req.body;
+
+        // Kiểm tra xem user đã có timetable cho tuần này hoặc tuần trước chưa
+        const existingTimetable = await TimeTable.findOne({
+            user: req.userId,
+            $or: [{ week: week }, { week: { $gt: week } }],
+        });
+
+        if (existingTimetable) {
+            return res.status(400).json({
+                success: false,
+                message: `This user already has a timetable for week ${week} or earlier.`,
+            });
+        }
+
+        const newTimeTable = new TimeTable({
+            user: req.userId,
+            week,
+            dateStart,
+            dateEnd,
+        });
+
+        // Lưu các registered_shifts vào ShiftRegister và cập nhật vào newTimeTable
+        const shiftRegisters = await Promise.all(
+            registered_shifts.map(async (shift) => {
+                const newShift = new ShiftRegister({
+                    time_table: newTimeTable._id,
+                    shiftName: shift.shiftName,
+                });
+                await newShift.save();
+                return newShift._id;
+            })
+        );
+        newTimeTable.registered_shifts = shiftRegisters;
+
+        await newTimeTable.save();
+
+        res.status(201).json({
+            success: true,
+            message: "Created timetable successfully",
+            timetable: newTimeTable,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+});
+
+// Route handler để lấy thông tin bảng lịch làm của user
+router.get("/timetable", verifyToken, async (req, res) => {
+    try {
+        const timeTable = await TimeTable.findOne({ user: req.userId }).populate([
+            {
+                path: "user",
+                select: "-password",
+            },
+            {
+                path: "registered_shifts",
+                select: "shiftName",
+            },
+            {
+                path: "assigned_shifts",
+                select: "shiftName",
+            },
+        ]);
+
+        if (!timeTable) {
+            return res.status(404).json({
+                success: false,
+                message: `Time table not found for user ${req.userId}.`,
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: `Get time table for user ${req.userId} successfully!`,
+            time_table: timeTable,
+        });
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });

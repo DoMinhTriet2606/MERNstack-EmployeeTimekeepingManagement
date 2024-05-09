@@ -9,17 +9,19 @@ export const SalaryReducer = (state, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case CREATE_SALARY:
-            return payload;
-        case UPDATE_SALARY:
-            return payload;
         case GET_ALL_SALARIES:
             return {
                 ...state,
-                salaries: payload,
+                checkouts: payload,
             };
         case GET_USER_SALARIES:
-            return payload;
+            return {
+                ...state,
+                user: payload.user,
+                timekeeper: payload.timekeeper,
+                totalEarnings: payload.totalEarnings,
+                monthlyEarnings: payload.monthlyEarnings,
+            };
         default:
             return state;
     }

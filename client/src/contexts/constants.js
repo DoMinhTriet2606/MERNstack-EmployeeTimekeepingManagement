@@ -10,6 +10,12 @@ export const FIND_INFO = "FIND_INFO";
 export const CONFIRM_CHANGE_INFO = "CONFIRM_CHANGE_INFO";
 
 // Administration
+export const GET_ALL_TABLES_SUCCESS = "GET_ALL_TABLES_SUCCESS";
+export const GENERATE_ASSIGN_SHIFT = "GENERATE_ASSIGN_SHIFT";
+export const CONFIRM_ASSIGN = "CONFIRM_ASSIGN";
+export const WORK_FAILS = "WORK_FAILS";
+
+// =================================================================
 export const GET_STAFF_INFO = "GET_STAFF_INFO";
 export const GET_STAFF_INFO_FAIL = "GET_STAFF_INFO_FAIL";
 export const GET_ALL_SHIFT = "GET_ALL_SHIFT";
@@ -17,6 +23,11 @@ export const DELETE_SHIFT = "DELETE_SHIFT";
 export const GET_ALL_SALARIES = "GET_ALL_SALARIES";
 
 // Shifts
+
+export const GET_TABLE_SUCCESS = "GET_TABLE_SUCCESS";
+export const NO_TABLE_FOUND = "NO_TABLE_FOUND";
+
+// =================================================================
 export const POST_SHIFT_SUCCESS = "POST_SHIFT_SUCCESS";
 export const POST_SHIFT_FAIL = "POST_SHIFT_FAIL";
 export const GET_SHIFT_SUCCESS = "GET_SHIFT_SUCCESS";

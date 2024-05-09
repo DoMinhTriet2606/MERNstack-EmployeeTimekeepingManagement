@@ -10,7 +10,7 @@ import Information from "./views/Information";
 import Staffs from "./views/Staffs";
 import StaffContextProvider from "./contexts/StaffContext";
 import ShiftContextProvider from "./contexts/ShiftContext";
-import Shift from "./views/shift";
+import Shift from "./views/ShiftTable";
 import CreateUser from "./views/CreateUser";
 import ShiftAdminContextProvider from "./contexts/ShiftAdminContext";
 import AdminShift from "./views/AdminShift";

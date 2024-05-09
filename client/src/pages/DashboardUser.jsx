@@ -13,9 +13,9 @@ const DashboardUser = ({ userId, userData, shiftData }) => {
             info();
         } else {
             if (isTrue) {
-                getWorkShift(userId);
+                getTimeTable();
             }
-            getSalary(userId);
+            getSalary();
             success();
         }
     }, [isTrue]);
@@ -30,17 +30,14 @@ const DashboardUser = ({ userId, userData, shiftData }) => {
     };
 
     const {
-        shiftState: { workShift },
-        getWorkShift,
+        shiftState: { assigned_shifts },
+        getTimeTable,
     } = useContext(ShiftContext);
 
-    const { salaryState, getSalary } = useContext(SalaryContext);
-    let totalEarnings = 0,
-        monthlyEarnings = 0;
-    if (salaryState[0]) {
-        totalEarnings = salaryState[0].totalEarnings;
-        monthlyEarnings = salaryState[0].monthlyEarnings;
-    }
+    const {
+        salaryState: { totalEarnings, monthlyEarnings },
+        getSalary,
+    } = useContext(SalaryContext);
 
     // Main code
     const s2 = [];
@@ -50,31 +47,30 @@ const DashboardUser = ({ userId, userData, shiftData }) => {
     const s6 = [];
     const s7 = [];
     const s8 = [];
+    assigned_shifts.sort((a, b) => a.shiftName - b.shiftName);
 
-    if (workShift.length > 0) {
-        const workShiftItem = workShift[0];
-        console.log(workShiftItem.user.username);
-        workShiftItem.shifts.forEach((shift) => {
-            if (shift.shiftTime === 21 || shift.shiftTime === 22 || shift.shiftTime === 23) {
-                s2.push({ username: workShiftItem.user.username, shiftTime: shift.shiftTime });
+    if (assigned_shifts.length > 0) {
+        assigned_shifts.forEach((shift) => {
+            if (shift.shiftName === 21 || shift.shiftName === 22 || shift.shiftName === 23) {
+                s2.push({ username: `${lastName}`, shiftName: shift.shiftName });
             }
-            if (shift.shiftTime === 31 || shift.shiftTime === 32 || shift.shiftTime === 33) {
-                s3.push({ username: workShiftItem.user.username, shiftTime: shift.shiftTime });
+            if (shift.shiftName === 31 || shift.shiftName === 32 || shift.shiftName === 33) {
+                s3.push({ username: `${lastName}`, shiftName: shift.shiftName });
             }
-            if (shift.shiftTime === 41 || shift.shiftTime === 42 || shift.shiftTime === 43) {
-                s4.push({ username: workShiftItem.user.username, shiftTime: shift.shiftTime });
+            if (shift.shiftName === 41 || shift.shiftName === 42 || shift.shiftName === 43) {
+                s4.push({ username: `${lastName}`, shiftName: shift.shiftName });
             }
-            if (shift.shiftTime === 51 || shift.shiftTime === 52 || shift.shiftTime === 53) {
-                s5.push({ username: workShiftItem.user.username, shiftTime: shift.shiftTime });
+            if (shift.shiftName === 51 || shift.shiftName === 52 || shift.shiftName === 53) {
+                s5.push({ username: `${lastName}`, shiftName: shift.shiftName });
             }
-            if (shift.shiftTime === 61 || shift.shiftTime === 62 || shift.shiftTime === 63) {
-                s6.push({ username: workShiftItem.user.username, shiftTime: shift.shiftTime });
+            if (shift.shiftName === 61 || shift.shiftName === 62 || shift.shiftName === 63) {
+                s6.push({ username: `${lastName}`, shiftName: shift.shiftName });
             }
-            if (shift.shiftTime === 71 || shift.shiftTime === 72 || shift.shiftTime === 73) {
-                s7.push({ username: workShiftItem.user.username, shiftTime: shift.shiftTime });
+            if (shift.shiftName === 71 || shift.shiftName === 72 || shift.shiftName === 73) {
+                s7.push({ username: `${lastName}`, shiftName: shift.shiftName });
             }
-            if (shift.shiftTime === 81 || shift.shiftTime === 82 || shift.shiftTime === 83) {
-                s8.push({ username: workShiftItem.user.username, shiftTime: shift.shiftTime });
+            if (shift.shiftName === 81 || shift.shiftName === 82 || shift.shiftName === 83) {
+                s8.push({ username: `${lastName}`, shiftName: shift.shiftName });
             }
         });
     }
