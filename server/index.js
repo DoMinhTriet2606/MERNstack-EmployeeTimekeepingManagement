@@ -28,12 +28,13 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(
-    cors({
-        origin: "*", // Cho phép truy cập từ tất cả các origin
-        optionsSuccessStatus: 200, // Mã status trả về khi thành công
-    })
-);
+
+const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userInfoRouter, userShiftRouter, salaryRouter);
