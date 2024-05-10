@@ -29,10 +29,8 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// Cấu hình CORS
 app.use(cors());
 
-// Cung cấp header Access-Control-Allow-Origin cho mọi route
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
