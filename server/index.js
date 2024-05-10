@@ -29,30 +29,23 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-const corsOptions = {
-    origin: "http://localhost:3000",
-    credentials: true, //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// Cấu hình CORS
+app.use(cors());
 
-app.all("/", function (req, res, next) {
+// Cung cấp header Access-Control-Allow-Origin cho mọi route
+app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
+// Sử dụng các router
 app.use("/api/auth", authRouter);
 app.use("/api/user", userInfoRouter, userShiftRouter, salaryRouter);
 app.use("/api/admin", adminRouter);
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    next();
-});
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`listen on port ${PORT}`);
+    console.log(`Listening on port ${PORT}`);
 });
