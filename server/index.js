@@ -28,12 +28,22 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(
+    cors({
+        origin: "*", // Cho phép truy cập từ tất cả các origin
+        optionsSuccessStatus: 200, // Mã status trả về khi thành công
+    })
+);
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userInfoRouter, userShiftRouter, salaryRouter);
 app.use("/api/admin", adminRouter);
 
-app.use(cors());
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    next();
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
