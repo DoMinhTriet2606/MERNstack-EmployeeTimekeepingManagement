@@ -86,8 +86,16 @@ const ShiftRegister = () => {
                 confirmButtonText: "Yes, register it!",
                 preConfirm: async () => {
                     // Call registerTable() here
-                    success();
-                    await registerTable(shiftInfo);
+                    const data = await registerTable(shiftInfo);
+                    if (data.success) {
+                        success();
+                    } else {
+                        Swal.fire({
+                            icon: "Error",
+                            title: "Error!",
+                            text: data.message,
+                        });
+                    }
                 },
             });
         } else {

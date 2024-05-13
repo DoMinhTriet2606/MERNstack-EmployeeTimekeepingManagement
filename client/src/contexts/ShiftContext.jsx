@@ -47,11 +47,14 @@ const ShiftContextProvider = ({ children }) => {
             const response = await axios.post(`${apiUrl}/user/timetable`, shiftInfo);
             if (response.data.success) {
                 getTimeTable();
+                return response.data;
             } else {
                 console.log(response.data.message);
+                return response.data;
             }
         } catch (error) {
             console.log(error);
+            return error.response.data;
         }
     };
 

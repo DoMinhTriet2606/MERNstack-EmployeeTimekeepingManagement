@@ -44,6 +44,16 @@ const timeTables = [
     },
 ];
 
+[
+    { user_id: 1, shifts: [32, 41] },
+    { user_id: 1, shifts: [32, 41] },
+    { user_id: 1, shifts: [32, 41] },
+][
+    ({ user_id: 1, shifts: [32, 41] },
+    { user_id: 1, shifts: [32, 41] },
+    { user_id: 1, shifts: [32, 41] })
+];
+
 function initializePopulation(numIterations, timeTables, shiftRatio = 0.4) {
     const population = [];
     for (let i = 0; i < numIterations; i++) {

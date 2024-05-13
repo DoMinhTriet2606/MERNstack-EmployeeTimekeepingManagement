@@ -55,26 +55,29 @@ const AssignedTable = ({ assignedTable }) => {
                 {schedule[0].map((column, columnIndex) => (
                     <tr key={columnIndex}>
                         {/* Lặp qua từng ô của mỗi cột */}
-                        {schedule.map((row, rowIndex) => (
-                            <td key={rowIndex}>
-                                {schedule[rowIndex][columnIndex] &&
-                                    schedule[rowIndex][columnIndex].usernames.map(
-                                        (username, index) => (
-                                            <div
-                                                key={index}
-                                                className={`schedule-username ${
-                                                    selectedUsers.includes(username)
-                                                        ? "selected"
-                                                        : ""
-                                                }`}
-                                                onClick={() => toggleUserSelection(username)}
-                                            >
-                                                {username}
-                                            </div>
-                                        )
+                        {schedule.map((row, rowIndex) => {
+                            const usernames = schedule[rowIndex][columnIndex]?.usernames || [];
+                            const hasConflict = usernames.length > 1;
+
+                            return (
+                                <td key={rowIndex}>
+                                    {usernames.map((username, index) => (
+                                        <div
+                                            key={index}
+                                            className={`schedule-username ${
+                                                selectedUsers.includes(username) ? "selected" : ""
+                                            }`}
+                                            onClick={() => toggleUserSelection(username)}
+                                        >
+                                            {username}
+                                        </div>
+                                    ))}
+                                    {hasConflict && (
+                                        <div className="schedule-username red">Shift Conflict</div>
                                     )}
-                            </td>
-                        ))}
+                                </td>
+                            );
+                        })}
                     </tr>
                 ))}
             </tbody>

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
 const RegisterTable = ({ timetables }) => {
+    const userList = [];
     // Tạo một mảng 2 chiều để lưu trữ thông tin về bảng lịch làm
     // Mỗi phần tử trong mảng này đại diện cho một ô trong bảng lịch
     const schedule = new Array(7).fill(null).map(() => new Array(3).fill(null));
 
     // Lặp qua từng bảng lịch làm
     timetables.forEach((timetable) => {
+        userList.push(timetable.user.username);
         // Lặp qua từng ca làm việc đã đăng ký trong bảng lịch
         timetable.registered_shifts.forEach((shift) => {
             // Lấy thứ và ca làm việc từ shiftName
@@ -37,48 +39,76 @@ const RegisterTable = ({ timetables }) => {
         }
     };
 
+    console.log(userList);
+    let modal = null;
+
     // Render bảng lịch
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
-                </tr>
-            </thead>
-            <tbody>
-                {schedule[0].map((column, columnIndex) => (
-                    <tr key={columnIndex}>
-                        {/* Lặp qua từng ô của mỗi cột */}
-                        {schedule.map((row, rowIndex) => (
-                            <td key={rowIndex}>
-                                {schedule[rowIndex][columnIndex] &&
-                                    schedule[rowIndex][columnIndex].usernames.map(
-                                        (username, index) => (
-                                            <div
-                                                key={index}
-                                                className={`schedule-username ${
-                                                    selectedUsers.includes(username)
-                                                        ? "selected"
-                                                        : ""
-                                                }`}
-                                                onClick={() => toggleUserSelection(username)}
-                                            >
-                                                {username}
-                                            </div>
-                                        )
-                                    )}
-                            </td>
-                        ))}
+        <>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {schedule[0].map((column, columnIndex) => (
+                        <tr key={columnIndex}>
+                            {/* Lặp qua từng ô của mỗi cột */}
+                            {schedule.map((row, rowIndex) => (
+                                <td key={rowIndex}>
+                                    {/* Kiểm tra nếu mảng usernames trong ô không rỗng */}
+                                    {schedule[rowIndex][columnIndex] &&
+                                    schedule[rowIndex][columnIndex].usernames.length > 0 ? (
+                                        schedule[rowIndex][columnIndex].usernames.map(
+                                            (username, index) => (
+                                                <div
+                                                    key={index}
+                                                    className={`schedule-username ${
+                                                        selectedUsers.includes(username)
+                                                            ? "selected"
+                                                            : ""
+                                                    }`}
+                                                    onClick={() => toggleUserSelection(username)}
+                                                >
+                                                    {username}
+                                                    {selectedUsers.includes(username)
+                                                        ? timetables.map((table) => {
+                                                              if (
+                                                                  table.user.username === username
+                                                              ) {
+                                                                  return (
+                                                                      <span key={index}>
+                                                                          {
+                                                                              table
+                                                                                  .registered_shifts
+                                                                                  .length
+                                                                          }
+                                                                      </span>
+                                                                  );
+                                                              }
+                                                          })
+                                                        : null}
+                                                </div>
+                                            )
+                                        )
+                                    ) : (
+                                        <div className="schedule-username red">No staff</div>
+                                    )}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {modal}
+        </>
     );
 };
 

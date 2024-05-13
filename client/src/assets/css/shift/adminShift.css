@@ -167,6 +167,14 @@ th {
     cursor: pointer;
 }
 
+.schedule-username.red {
+    background-color: #f875aa;
+    color: #fff;
+}
+.schedule-username span {
+    margin-left: 8px;
+}
+
 .schedule-username.selected {
     border: 2px solid #7ed7c1;
 }
