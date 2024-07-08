@@ -1,7 +1,7 @@
 export const apiUrl =
     process.env.NODE_ENV !== "production"
         ? "http://localhost:5000/api"
-        : "https://shift-scheduling-a9ccc5578621.herokuapp.com/api";
+        : "https://mernstack-employeetimekeepingmanagement.onrender.com/api";
 
 export const LOCAL_STORAGE_TOKEN_NAME = "user";
 export const INFO_LOADED_SUCCESS = "INFO_LOADED_SUCCESS";

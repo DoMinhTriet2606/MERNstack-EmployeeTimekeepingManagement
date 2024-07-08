@@ -29,7 +29,13 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-app.use(cors());
+app.use(
+    cors({
+        origin: "https://mernstack-employeetimekeepingmanagement.onrender.com",
+        headers: ["Content-Type"],
+        credentials: true,
+    })
+);
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

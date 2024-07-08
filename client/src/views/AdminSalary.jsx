@@ -56,14 +56,10 @@ const AdminSalary = () => {
 
     let body = null;
     if (adminLoading && tables.length === 0) {
-        body = (
-            <div className="home-content">
-                <Loader />
-            </div>
-        );
+        body = <Loader />;
     } else {
         body = (
-            <div className="home-content">
+            <>
                 <div className="shift__container mt-32">
                     <h1>Checkout Table</h1>
                     <CheckoutTable timetables={tables} />
@@ -71,11 +67,11 @@ const AdminSalary = () => {
                 <div className="button__container-shift shift-admin">
                     <button onClick={handleCheckout}>Checkout</button>
                 </div>
-            </div>
+            </>
         );
     }
     return (
-        <div>
+        <div className="home-content">
             {contextHolder}
             {body}
         </div>
