@@ -29,13 +29,11 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-app.use(
-    cors({
-        origin: "https://employeetimekeepingmanagement.onrender.com",
-        headers: ["Content-Type"],
-        credentials: true,
-    })
-);
+app.use(cors({
+        origin: "https://timekeeping-1kob.onrender.com"
+    }
+))
+app.options('*', cors())
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
